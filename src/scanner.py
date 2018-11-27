@@ -12,12 +12,10 @@ def init():
     signal.signal(signal.SIGINT, signal.SIG_IGN)
 
 def scan(urls):
-    """scan multiple websites with multi processing"""
-
     vulnerables = []
-    results = {}  # armazenar resultados examinados
+    results = {}  
 
-    childs = []  # armazenar processos filhos
+    childs = [] 
     max_processes = multiprocessing.cpu_count() * 2
     pool = multiprocessing.Pool(max_processes, init)
 
@@ -32,7 +30,7 @@ def scan(urls):
             if all([child.ready() for child in childs]):
                 break
     except KeyboardInterrupt:
-        std.stderr("stopping sqli scanning process")
+        std.stderr("parou")
         pool.terminate()
         pool.join()
     else:
@@ -47,15 +45,13 @@ def scan(urls):
 
 
 def __sqli(url):
-    """verificar vulnerabilidade de injeção SQL"""
+    std.stdout("buscando {}".format(url), end="")
 
-    std.stdout("BUSCANDO {}".format(url), end="")
-
-    domain = url.split("?")[0]  
+    domain = url.split("?")[0] 
     queries = urlparse(url).query.split("&")
-    # no queries in url
+ 
     if not any(queries):
-        print "" 
+        print "" #
         return False, None
 
     payloads = ("'", "')", "';", '"', '")', '";', '`', '`)', '`;', '\\', "%27", "%%2727", "%25%27", "%60", "%5C")
@@ -65,7 +61,7 @@ def __sqli(url):
         if source:
             vulnerable, db = sqlerrors.check(source)
             if vulnerable and db != None:
-                std.showsign(" VULNERAVEL")
+                std.showsign("  VULNERAVEL")
                 return True, db
 
     print ""  
