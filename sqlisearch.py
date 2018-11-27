@@ -12,7 +12,7 @@ def initparser():
     global parser
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", dest="dork", type=str, metavar="inurl:example")
-    parser.add_argument("-p", dest="page",default=, metavar="100")
+    parser.add_argument("-p", dest="page",default=10, metavar="100")
 
 
 
