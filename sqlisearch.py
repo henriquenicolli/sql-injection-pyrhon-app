@@ -14,8 +14,6 @@ def initparser():
     parser.add_argument("-d", dest="dork", type=str, metavar="inurl:example")
     parser.add_argument("-p", dest="page",default=10, metavar="100")
 
-
-
 if __name__ == "__main__":
     initparser()
     args = parser.parse_args()
